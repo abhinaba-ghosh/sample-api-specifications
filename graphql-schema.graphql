@@ -1,21 +1,30 @@
-# src/schema.graphql
-
-# import ID, File from "./generated/database.graphql"
-
-# Everything user can read
-type Query {
-    file(id: ID!): File # Takes id property as an argument and returns a File
-    files: [File!]! # Returns every file stored
+type User {
+    id: Int!
+    name: String!
+    email: String!
+    recipes: [Recipe!]!
 }
 
-# Everthing user can change
-type Mutation {
-    renameFile(
-        id: ID! # An ID of the file to be changed
-        name: String! # A new name of the file
-    ): File
+type Recipe {
+    id: Int!
+    title: String!
+    ingredients: String!
+    direction: String!
+    user: User!
+}
 
-    deleteFile(
-        id: ID! # Id of the file to be deleted
-    ): File
+type Query {
+    user(id: Int!): User
+    allRecipes: [Recipe!]!
+    recipe(id: Int!): Recipe
+}
+
+type Mutation {
+    createUser(name: String!, email: String!, password: String!): User!
+    createRecipe(
+        userId: Int!
+        title: String!
+        ingredients: String!
+        direction: String!
+    ): Recipe!
 }
